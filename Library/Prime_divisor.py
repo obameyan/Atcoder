@@ -1,3 +1,47 @@
+def gcd(a, b):
+    """a,bの最大公約数"""
+    if b == 0:
+        return a
+    else:
+        return gcd(b, a % b)
+
+
+def gcdlist(l):
+    """リスト l の最大公約数"""
+    a = l[0]
+    for i in range(len(l)):
+        a = gcd(a, l[i])
+    return a
+
+
+def extgcd(a, b):
+    """互いに素なa,bについて、a*x+b*y=1の一つの解"""
+    r = [1, 0, a]
+    w = [0, 1, b]
+    while w[2] != 1:
+        q = r[2]//w[2]
+        r2 = w
+        w2 = [r[0]-q*w[0], r[1]-q*w[1], r[2]-q*w[2]]
+        r = r2
+        w = w2
+    # [x,y]
+    return [w[0], w[1]]
+
+
+def extgcd_2(a, b):
+    """a*x+b*y=gcd(a,b)の一つの解"""
+
+    g = gcd(a, b)
+    a = a//g
+    b = b//g
+    return extgcd(a, b)
+
+
+def lcm(a, b):
+    """a,bの最小公倍数"""
+    return a * b // gcd(a, b)
+
+
 def is_prime(n):
     """ nの素数判定 """
     if n == 1:
@@ -96,3 +140,18 @@ print(prime_factor(18))
 print(fctr1(60))
 print(primes(100))
 print((segment_sieve(1, 101)))
+
+# 12,18の最大公約数
+print(gcd(12, 18))
+
+# [6,9,15,213]の最大公約数
+print(gcdlist([6, 9, 15, 213]))
+
+# 5x + 17y = 1の解
+print(extgcd(5, 17))
+
+# 15x + 9y = gcd(15,9) = 3の解
+print(extgcd_2(15, 9))
+
+# 3,4の最小公倍数
+print(lcm(3, 4))
